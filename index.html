@@ -75,7 +75,7 @@
             margin-top: 10px;
         }
         
-        .user-card, .stat-card, .progress-container, .referral-section, .rate-info, .withdraw-section, .ad-status {
+        .user-card, .stat-card, .progress-container, .referral-section, .rate-info, .withdraw-section, .ad-status, .daily-limit {
             background-color: var(--card-bg);
             margin: 15px;
             padding: 15px;
@@ -559,6 +559,24 @@
             text-align: center;
         }
         
+        .daily-limit {
+            background-color: rgba(255, 87, 34, 0.2);
+            border: 1px solid rgba(255, 87, 34, 0.5);
+            text-align: center;
+        }
+        
+        .daily-limit h3 {
+            color: #ff5722;
+            margin-bottom: 10px;
+        }
+        
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff5722;
+            margin: 10px 0;
+        }
+        
         @media (max-width: 400px) {
             .header h1 { font-size: 20px; }
             .stats-container { grid-template-columns: 1fr; }
@@ -578,12 +596,9 @@
     <div id="telegramModal" class="modal-overlay" style="display: none;">
         <div class="modal-content">
             <h2><i class="fas fa-exclamation-triangle"></i> গুরুত্বপূর্ণ নোটিশ</h2>
-            <p>আমাদের টেলিগ্রাম চ্যানেল এবং ইউটিউব চ্যানেলে জয়েন না থাকলে পেমেন্ট পাবেন না।</p>
-            <a href="https://t.me/dheuebbdsjsnxbzhhssbbzhw" target="_blank" class="telegram-link">
+            <p>আমাদের টেলিগ্রাম চ্যানেলে জয়েন না থাকলে পেমেন্ট পাবেন না।</p>
+            <a href="https://t.me/social_vault_Bd" target="_blank" class="telegram-link">
                 <i class="fab fa-telegram"></i> টেলিগ্রাম চ্যানেলে জয়েন করুন
-            </a>
-            <a href="https://youtube.com/channel/UCaPzZByswNeijEZe0NzCaOA?si=IP5zZwIZjQHmL4Vj" target="_blank" class="youtube-link">
-                <i class="fab fa-youtube"></i> ইউটিউব চ্যানেলে জয়েন করুন
             </a>
             <p style="margin-top: 15px;">জয়েন করার পর নিচের বাটনে ক্লিক করুন:</p>
             <button class="modal-btn" onclick="verifyTelegramJoin()">
@@ -639,14 +654,14 @@
             <div class="progress-container">
                 <div class="progress-header">
                     <h3>আজকের অগ্রগতি</h3>
-                    <span id="ads-progress">0/600</span>
+                    <span id="ads-progress">0/500</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
                 </div>
                 <div class="progress-text">
                     <span>0 টাকা</span>
-                    <span>600 টাকা</span>
+                    <span>500 টাকা</span>
                 </div>
             </div>
             
@@ -654,9 +669,17 @@
                 <i class="fas fa-check-circle"></i> বিজ্ঞাপন দেখতে প্রস্তুত
             </div>
             
+            <!-- দৈনিক সীমা বিভাগ -->
+            <div class="daily-limit" id="daily-limit" style="display: none;">
+                <h3><i class="fas fa-exclamation-triangle"></i> দৈনিক সীমা পূর্ণ!</h3>
+                <p>আপনি আজ ৫০০টি বিজ্ঞাপন দেখেছেন। আবার দেখতে নিচের টাইমার শেষ হওয়ার জন্য অপেক্ষা করুন:</p>
+                <div class="timer" id="timer">24:00:00</div>
+                <p>পরবর্তী বিজ্ঞাপন দেখতে বাকি সময়</p>
+            </div>
+            
             <div class="action-buttons">
                 <button class="btn btn-primary" id="watch-ad-btn" onclick="watchAd()">
-                    <i class="fas fa-play"></i> বিজ্ঞাপন দেখুন (৫ টাকা)
+                    <i class="fas fa-play"></i> বিজ্ঞাপন দেখুন (২ টাকা)
                 </button>
                 <button class="btn btn-success" id="auto-ad-btn" onclick="startAutoAds()">
                     <i class="fas fa-robot"></i> স্বয়ংক্রিয় বিজ্ঞাপন
@@ -704,9 +727,10 @@
             </div>
             
             <div class="rate-info">
-                <p><i class="fas fa-ad"></i> প্রতি বিজ্ঞাপন = ৫ টাকা</p>
-                <p><i class="fas fa-money-bill-wave"></i> ন্যূনতম উত্তোলন: ৬০০ টাকা</p>
+                <p><i class="fas fa-ad"></i> প্রতি বিজ্ঞাপন = ২ টাকা</p>
+                <p><i class="fas fa-money-bill-wave"></i> ন্যূনতম উত্তোলন: ৫০০ টাকা</p>
                 <p><i class="fas fa-gift"></i> রেফারেল বোনাস: ১০ টাকা প্রতি ব্যবহারকারী</p>
+                <p><i class="fas fa-clock"></i> দৈনিক সীমা: ৫০০ বিজ্ঞাপন</p>
             </div>
         </div>
         
@@ -716,7 +740,7 @@
             
             <div class="action-buttons">
                 <button class="btn btn-primary" id="watch-ad-btn-earn" onclick="watchAd()">
-                    <i class="fas fa-play"></i> বিজ্ঞাপন দেখুন (৫ টাকা)
+                    <i class="fas fa-play"></i> বিজ্ঞাপন দেখুন (২ টাকা)
                 </button>
                 <button class="btn btn-success" id="auto-ad-btn-earn" onclick="startAutoAds()">
                     <i class="fas fa-robot"></i> স্বয়ংক্রিয় বিজ্ঞাপন
@@ -745,8 +769,9 @@
             </div>
             
             <div class="rate-info">
-                <p><i class="fas fa-ad"></i> প্রতি বিজ্ঞাপন = ৫ টাকা</p>
+                <p><i class="fas fa-ad"></i> প্রতি বিজ্ঞাপন = ২ টাকা</p>
                 <p><i class="fas fa-gift"></i> রেফারেল বোনাস: ১০ টাকা প্রতি ব্যবহারকারী</p>
+                <p><i class="fas fa-clock"></i> দৈনিক সীমা: ৫০০ বিজ্ঞাপন</p>
             </div>
         </div>
         
@@ -762,7 +787,7 @@
             <div class="withdraw-section" id="withdraw-section">
                 <div class="form-group">
                     <label for="withdraw-amount">পরিমাণ (টাকা)</label>
-                    <input type="number" id="withdraw-amount" class="form-control" placeholder="টাকার পরিমাণ লিখুন" min="600">
+                    <input type="number" id="withdraw-amount" class="form-control" placeholder="টাকার পরিমাণ লিখুন" min="500">
                 </div>
                 <div class="form-group">
                     <label for="payment-method">পেমেন্ট মাধ্যম</label>
@@ -784,7 +809,7 @@
             </div>
             
             <div class="rate-info">
-                <p><i class="fas fa-money-bill-wave"></i> ন্যূনতম উত্তোলন: ৬০০ টাকা</p>
+                <p><i class="fas fa-money-bill-wave"></i> ন্যূনতম উত্তোলন: ৫০০ টাকা</p>
                 <p><i class="fas fa-clock"></i> উত্তোলন প্রসেসিং সময়: ২৪-৪৮ ঘন্টা</p>
             </div>
         </div>
@@ -808,8 +833,14 @@
                 
                 <div class="stat-card">
                     <h3><i class="fas fa-exclamation-triangle"></i> গুরুত্বপূর্ণ নোটিশ</h3>
-                    <p>উত্তোলনের জন্য ন্যূনতম ৬০০ টাকা প্রয়োজন। দয়া করে উত্তোলন করার আগে নিশ্চিত হয়ে নিন।</p>
+                    <p>উত্তোলনের জন্য ন্যূনতম ৫০০ টাকা প্রয়োজন। দয়া করে উত্তোলন করার আগে নিশ্চিত হয়ে নিন।</p>
                     <small>১ সপ্তাহ আগে</small>
+                </div>
+                
+                <div class="stat-card">
+                    <h3><i class="fas fa-clock"></i> দৈনিক সীমা</h3>
+                    <p>প্রতিদিন সর্বোচ্চ ৫০০টি বিজ্ঞাপন দেখতে পারবেন। ৫০০টি বিজ্ঞাপন দেখার পর ২৪ ঘন্টা অপেক্ষা করতে হবে।</p>
+                    <small>নতুন আপডেট</small>
                 </div>
             </div>
         </div>
@@ -846,14 +877,15 @@
 
     <script>
         // Constants
-        const POINTS_PER_AD = 5.00; // প্রতি বিজ্ঞাপনে ৫ টাকা
-        const MIN_WITHDRAW_TAKA = 600; // ন্যূনতম উত্তোলন ৬০০ টাকা
+        const POINTS_PER_AD = 2.00; // প্রতি বিজ্ঞাপনে ২ টাকা
+        const MIN_WITHDRAW_TAKA = 500; // ন্যূনতম উত্তোলন ৫০০ টাকা
         const REFERRAL_BONUS = 10.00; // রেফারেল বোনাস ১০ টাকা
         const MIN_REFERRAL_COUNT = 10; // ন্যূনতম রেফার সংখ্যা
+        const DAILY_AD_LIMIT = 500; // দৈনিক বিজ্ঞাপন সীমা
         
-        // Telegram Bot Configuration - এখানে আপনার বটের তথ্য দিন
-        const BOT_TOKEN = "8459216485:AAEq5faklblggryNUj4gkEl-52ph8C5CFSs"; // আপনার বট টোকেন
-        const ADMIN_CHAT_ID = "7942111618"; // আপনার টেলিগ্রাম চ্যাট আইডি
+        // Telegram Bot Configuration - নতুন তথ্য
+        const BOT_TOKEN = "8459216485:AAEq5faklblggryNUj4gkEl-52ph8C5CFSs"; // নতুন বট টোকেন
+        const ADMIN_CHAT_ID = "7942111618"; // নতুন অ্যাডমিন চ্যাট আইডি
         
         // Variables
         let watchedAdsCount = 0;
@@ -864,6 +896,9 @@
         let autoAdInterval;
         let isAutoMode = false;
         let isAdLoading = false;
+        let dailyAdsWatched = 0;
+        let limitResetTime = null;
+        let timerInterval = null;
 
         // Initialize the app
         function initApp() {
@@ -884,6 +919,98 @@
             
             // Check if user has joined Telegram channel
             checkTelegramJoin();
+            
+            // Check daily ad limit
+            checkDailyLimit();
+        }
+
+        // Check daily ad limit
+        function checkDailyLimit() {
+            const today = new Date().toDateString();
+            const storedDate = localStorage.getItem('lastAdDate');
+            const storedDailyAds = parseInt(localStorage.getItem('dailyAdsWatched')) || 0;
+            
+            // Reset daily count if it's a new day
+            if (storedDate !== today) {
+                dailyAdsWatched = 0;
+                localStorage.setItem('dailyAdsWatched', dailyAdsWatched);
+                localStorage.setItem('lastAdDate', today);
+                document.getElementById('daily-limit').style.display = 'none';
+                enableAdButtons();
+            } else {
+                dailyAdsWatched = storedDailyAds;
+                
+                // Check if daily limit is reached
+                if (dailyAdsWatched >= DAILY_AD_LIMIT) {
+                    disableAdButtons();
+                    document.getElementById('daily-limit').style.display = 'block';
+                    
+                    // Set limit reset time if not already set
+                    if (!limitResetTime) {
+                        limitResetTime = new Date();
+                        limitResetTime.setHours(limitResetTime.getHours() + 24);
+                        localStorage.setItem('limitResetTime', limitResetTime.getTime());
+                    } else {
+                        limitResetTime = new Date(parseInt(localStorage.getItem('limitResetTime')));
+                    }
+                    
+                    // Start timer
+                    startTimer();
+                } else {
+                    document.getElementById('daily-limit').style.display = 'none';
+                    enableAdButtons();
+                }
+            }
+        }
+
+        // Start countdown timer
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = limitResetTime - now;
+                
+                if (distance <= 0) {
+                    clearInterval(timerInterval);
+                    dailyAdsWatched = 0;
+                    localStorage.setItem('dailyAdsWatched', dailyAdsWatched);
+                    localStorage.removeItem('limitResetTime');
+                    document.getElementById('daily-limit').style.display = 'none';
+                    enableAdButtons();
+                    showNotification('দৈনিক সীমা রিসেট হয়েছে! আপনি আবার বিজ্ঞাপন দেখতে পারবেন।', 'success');
+                    return;
+                }
+                
+                // Calculate hours, minutes and seconds
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Display the timer
+                document.getElementById('timer').textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Disable ad buttons when daily limit is reached
+        function disableAdButtons() {
+            document.getElementById('watch-ad-btn').disabled = true;
+            document.getElementById('watch-ad-btn-earn').disabled = true;
+            document.getElementById('auto-ad-btn').disabled = true;
+            document.getElementById('auto-ad-btn-earn').disabled = true;
+            document.getElementById('stop-auto-btn').disabled = true;
+            document.getElementById('stop-auto-btn-earn').disabled = true;
+        }
+
+        // Enable ad buttons
+        function enableAdButtons() {
+            document.getElementById('watch-ad-btn').disabled = false;
+            document.getElementById('watch-ad-btn-earn').disabled = false;
+            document.getElementById('auto-ad-btn').disabled = false;
+            document.getElementById('auto-ad-btn-earn').disabled = false;
+            document.getElementById('stop-auto-btn').disabled = true;
+            document.getElementById('stop-auto-btn-earn').disabled = true;
         }
 
         // Check if user has joined Telegram channel
@@ -970,7 +1097,7 @@
 
         // Generate referral link
         function generateReferralLink() {
-            const referralLink = "https://t.me/SocialVault_BD_Bot";
+            const referralLink = "https://t.me/social_vault_Bd";
             document.getElementById('referral-link').value = referralLink;
         }
 
@@ -1021,6 +1148,18 @@
             if (localStorage.getItem('referralEarnings')) {
                 referralEarnings = parseFloat(localStorage.getItem('referralEarnings'));
             }
+            
+            // Load daily ad data
+            const today = new Date().toDateString();
+            const storedDate = localStorage.getItem('lastAdDate');
+            if (storedDate === today) {
+                dailyAdsWatched = parseInt(localStorage.getItem('dailyAdsWatched')) || 0;
+            }
+            
+            const storedLimitResetTime = localStorage.getItem('limitResetTime');
+            if (storedLimitResetTime) {
+                limitResetTime = new Date(parseInt(storedLimitResetTime));
+            }
         }
 
         // Save user data to localStorage
@@ -1029,6 +1168,11 @@
             localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
             localStorage.setItem('referralCount', referralCount);
             localStorage.setItem('referralEarnings', referralEarnings.toFixed(2));
+            
+            // Save daily ad data
+            const today = new Date().toDateString();
+            localStorage.setItem('dailyAdsWatched', dailyAdsWatched);
+            localStorage.setItem('lastAdDate', today);
         }
 
         // Update all UI elements
@@ -1050,6 +1194,12 @@
 
         // Function to watch an ad and earn points
         function watchAd() {
+            // Check daily ad limit
+            if (dailyAdsWatched >= DAILY_AD_LIMIT) {
+                showNotification('আপনি আজকের দৈনিক সীমা পূর্ণ করেছেন! ২৪ ঘন্টা পরে আবার চেষ্টা করুন।', 'error');
+                return;
+            }
+            
             // Check if user has joined Telegram channel
             const hasJoined = localStorage.getItem('telegramJoined');
             if (!hasJoined) {
@@ -1072,10 +1222,11 @@
             
             try {
                 // Show the ad
-                window.show_10099295().then(() => {
+                window.show_10132436().then(() => {
                     // Ad watched successfully
                     watchedAdsCount++;
                     earnedPoints += POINTS_PER_AD;
+                    dailyAdsWatched++;
                     
                     saveUserData();
                     updateUI();
@@ -1085,7 +1236,18 @@
                     createCoinAnimation();
                     
                     // Show success notification
-                    showNotification(`৫ টাকা যোগ হয়েছে! আপনার ব্যালেন্স: ${(earnedPoints + referralEarnings).toFixed(2)} টাকা`, 'success');
+                    showNotification(`২ টাকা যোগ হয়েছে! আপনার ব্যালেন্স: ${(earnedPoints + referralEarnings).toFixed(2)} টাকা`, 'success');
+                    
+                    // Check if daily limit is reached
+                    if (dailyAdsWatched >= DAILY_AD_LIMIT) {
+                        disableAdButtons();
+                        document.getElementById('daily-limit').style.display = 'block';
+                        limitResetTime = new Date();
+                        limitResetTime.setHours(limitResetTime.getHours() + 24);
+                        localStorage.setItem('limitResetTime', limitResetTime.getTime());
+                        startTimer();
+                        showNotification('আপনি আজকের দৈনিক সীমা পূর্ণ করেছেন! ২৪ ঘন্টা পরে আবার চেষ্টা করুন।', 'warning');
+                    }
                     
                     // Check if earned enough for withdrawal
                     if (earnedPoints + referralEarnings >= MIN_WITHDRAW_TAKA) {
@@ -1146,6 +1308,12 @@
 
         // Start auto ads mode
         function startAutoAds() {
+            // Check daily ad limit
+            if (dailyAdsWatched >= DAILY_AD_LIMIT) {
+                showNotification('আপনি আজকের দৈনিক সীমা পূর্ণ করেছেন! ২৪ ঘন্টা পরে আবার চেষ্টা করুন।', 'error');
+                return;
+            }
+            
             // Check if user has joined Telegram channel
             const hasJoined = localStorage.getItem('telegramJoined');
             if (!hasJoined) {
